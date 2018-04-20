@@ -65,12 +65,12 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             predictLable(modelType = modelType, filename = filename)
             time.sleep(5.5)
-            return redirect(url_for('uploaded_file',
+            return redirect(url_for('download_file',
                                     filename=filename+'_'+modelType +'_predicted.csv'))
     return render_template('hello.html')
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
+@app.route('/downloads/<filename>')
+def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename,as_attachment=True)
 
