@@ -21,26 +21,24 @@ ALLOWED_EXTENSIONS = set(['csv'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-class Use_Model:
-    def __init__(self, Clustering=True, baseDir = 'test.csv', modelType = 'LRlbfgs', filename = 'test.csv'):
-        self.filename = filename
-        self.downloadName = filename+'_'+modelType +'_predicted.csv'
-        self.baseDir = baseDir
-        self.df = pd.read_csv(self.baseDir+'/uploads/'+self.filename)
-        self.dfList = np.array(self.df)
-        self.length_ = len(self.dfList)
-        self.alpha = 0.01
-        self.one_Num = int(self.length_ * self.alpha)
-        self.randomList = [random.randint(0,self.length_) for i in range(self.one_Num)]
-        self.result = []
-        for i in range(self.length_):
-            if i in self.randomList:
-                self.result.append(1)
-            else:
-                self.result.append(0)
-        self.df.insert(len(list(self.df.columns)), 'Result', np.array(self.result))
-        #-----to.csv-----#
-        self.df.to_csv(self.baseDir + '/uploads/'+self.downloadName)
+def predictLable(baseDir = 'test.csv', modelType = 'LRlbfgs', filename = 'test.csv'):
+    downloadName = filename+'_'+modelType +'_predicted.csv'
+    df = pd.read_csv(baseDir+'/uploads/'+filename)
+    dfList = np.array(df)
+    length_ = len(dfList)
+    alpha = 0.01
+    one_Num = int(length_ * alpha)
+    randomList = [random.randint(0,length_) for i in range(one_Num)]
+    result = []
+    for i in range(length_):
+        if i in randomList:
+            result.append(1)
+        else:
+            result.append(0)
+    df.insert(len(list(df.columns)), 'Result', np.array(result))
+    #-----to.csv-----#
+    df.to_csv(baseDir + '/uploads/'+downloadName)
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -65,7 +63,7 @@ def upload_file():
             filename = secure_filename(file.filename)
             #print(filename,file=sys.stderr)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            Use_Model(Clustering=True, baseDir = os.getcwd(), modelType = modelType, filename = filename)
+            predictLable(baseDir = os.getcwd(), modelType = modelType, filename = filename)
             if modelType == 'RF':
                 time.sleep(6.5)
             elif modelType == 'LRsgd':
