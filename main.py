@@ -15,13 +15,13 @@ import pandas as pd
 import random
 
 
-UPLOAD_FOLDER = os.getcwd()+'/uploads'
+UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['csv'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def predictLable(baseDir = 'test.csv', modelType = 'LRlbfgs', filename = 'test.csv'):
+def predictLable(modelType = 'LRlbfgs', filename = 'test.csv'):
     downloadName = filename+'_'+modelType +'_predicted.csv'
     df = pd.read_csv('uploads/'+filename)
     dfList = np.array(df)
@@ -63,7 +63,7 @@ def upload_file():
             filename = secure_filename(file.filename)
             #print(filename,file=sys.stderr)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            predictLable(baseDir = os.getcwd(), modelType = modelType, filename = filename)
+            predictLable(modelType = modelType, filename = filename)
             time.sleep(5.5)
             return redirect(url_for('uploaded_file',
                                     filename=filename+'_'+modelType +'_predicted.csv'))
