@@ -23,7 +23,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def predictLable(modelType = 'LRlbfgs', filename = 'test.csv'):
     downloadName = filename+'_'+modelType +'_predicted.csv'
-    df = pd.read_csv("D:\home\site\wwwroot\uploads\" + filename)
+    df = pd.read_csv("D:\home\site\wwwroot\uploads" + filename)
     dfList = np.array(df)
     length_ = len(dfList)
     alpha = 0.01
@@ -37,7 +37,7 @@ def predictLable(modelType = 'LRlbfgs', filename = 'test.csv'):
             result.append(0)
     df.insert(len(list(df.columns)), 'Result', np.array(result))
     #-----to.csv-----#
-    df.to_csv("D:\home\site\wwwroot\uploads\"+ downloadName)
+    df.to_csv("D:\home\site\wwwroot\uploads"+ downloadName)
 
 
 def allowed_file(filename):
