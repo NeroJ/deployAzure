@@ -1,3 +1,4 @@
+#from __future__ import print_function
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -84,7 +85,7 @@ def upload_file():
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
+                               filename,as_attachment=True)
 
 if __name__ == '__main__':
   app.run()
