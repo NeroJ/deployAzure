@@ -63,7 +63,7 @@ def upload_file():
             filename = secure_filename(file.filename)
             #print(filename,file=sys.stderr)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            predictLable(modelType = modelType, filename = filename)
+            #predictLable(modelType = modelType, filename = filename)
             time.sleep(5.5)
             return redirect(url_for('download_file',
                                     filename=filename+'_'+modelType +'_predicted.csv'))
