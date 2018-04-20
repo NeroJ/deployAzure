@@ -23,7 +23,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def predictLable(baseDir = 'test.csv', modelType = 'LRlbfgs', filename = 'test.csv'):
     downloadName = filename+'_'+modelType +'_predicted.csv'
-    df = pd.read_csv(baseDir+'/uploads/'+filename)
+    df = pd.read_csv('uploads/'+filename)
     dfList = np.array(df)
     length_ = len(dfList)
     alpha = 0.01
@@ -37,7 +37,7 @@ def predictLable(baseDir = 'test.csv', modelType = 'LRlbfgs', filename = 'test.c
             result.append(0)
     df.insert(len(list(df.columns)), 'Result', np.array(result))
     #-----to.csv-----#
-    df.to_csv(baseDir + '/uploads/'+downloadName)
+    df.to_csv('uploads/'+downloadName)
 
 
 def allowed_file(filename):
@@ -64,18 +64,7 @@ def upload_file():
             #print(filename,file=sys.stderr)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             predictLable(baseDir = os.getcwd(), modelType = modelType, filename = filename)
-            if modelType == 'RF':
-                time.sleep(6.5)
-            elif modelType == 'LRsgd':
-                time.sleep(4.5)
-            elif modelType == 'LRlbfgs':
-                time.sleep(5)
-            elif modelType == 'GBDT':
-                time.sleep(5.8)
-            elif modelType == 'SMV':
-                time.sleep(5.0)
-            else:
-                pass
+            time.sleep(5.5)
             return redirect(url_for('uploaded_file',
                                     filename=filename+'_'+modelType +'_predicted.csv'))
     return render_template('hello.html')
