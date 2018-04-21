@@ -22,26 +22,26 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def predictLable(modelType = 'LRlbfgs', filename = 'test.csv'):
-    wFile = open(os.path.join(app.config['UPLOAD_FOLDER'], 'bb.txt'),'w')
-    wFile.write('sfdsfdsf')
-    
+    #wFile = open(os.path.join(app.config['UPLOAD_FOLDER'], 'bb.txt'),'w')
+    #wFile.write('sfdsfdsf')
+    #wFile.close()
     #df = pd.DataFrame(data=d)
-    #downloadName = filename+'_'+modelType +'_predicted.csv'
-    # df = pd.read_csv(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    # dfList = np.array(df)
-    # length_ = len(dfList)
-    # alpha = 0.01
-    # one_Num = int(length_ * alpha)
-    # randomList = [random.randint(0,length_) for i in range(one_Num)]
-    # result = []
-    # for i in range(length_):
-    #     if i in randomList:
-    #         result.append(1)
-    #     else:
-    #         result.append(0)
-    # df.insert(len(list(df.columns)), 'Result', np.array(result))
+    downloadName = filename+'_'+modelType +'_predicted.csv'
+    df = pd.read_csv(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    dfList = np.array(df)
+    length_ = len(dfList)
+    alpha = 0.01
+    one_Num = int(length_ * alpha)
+    randomList = [random.randint(0,length_) for i in range(one_Num)]
+    result = []
+    for i in range(length_):
+        if i in randomList:
+            result.append(1)
+        else:
+            result.append(0)
+    df.insert(len(list(df.columns)), 'Result', np.array(result))
     #-----to.csv-----#
-    #df.to_csv(os.path.join(app.config['UPLOAD_FOLDER'], downloadName))
+    df.to_csv(os.path.join(app.config['UPLOAD_FOLDER'], downloadName))
 
 
 def allowed_file(filename):
