@@ -9,7 +9,6 @@ from pyspark import SparkContext
 from pyspark.conf import SparkConf
 from pyspark.sql import *
 from operator import add
-from sklearn.cross_validation import KFold
 from pyspark.mllib.clustering import KMeans, KMeansModel
 from pyspark.mllib.regression import LabeledPoint
 from pyspark.mllib.tree import RandomForest, RandomForestModel
