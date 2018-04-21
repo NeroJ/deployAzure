@@ -23,8 +23,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def predictLable(modelType = 'LRlbfgs', filename = 'test.csv'):
     d = {'col1': [1, 2], 'col2': [3, 4]}
-    df = pd.DataFrame(data=d)
-    downloadName = filename+'_'+modelType +'_predicted.csv'
+    #df = pd.DataFrame(data=d)
+    #downloadName = filename+'_'+modelType +'_predicted.csv'
     # df = pd.read_csv(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     # dfList = np.array(df)
     # length_ = len(dfList)
