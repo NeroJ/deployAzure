@@ -1,4 +1,4 @@
-#from __future__ import print_function
+from __future__ import print_function
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -6,39 +6,16 @@ from flask import abort, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 import os
+from fraudModel.fraud import *
 import sys
 import copy
 import time
-import datetime
-import numpy as np
-import pandas as pd
-import random
 
-
-UPLOAD_FOLDER = 'uploads/'
+UPLOAD_FOLDER = os.getcwd()+'/uploads'
 ALLOWED_EXTENSIONS = set(['csv'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-def predictLable(modelType = 'LRlbfgs', filename = 'test.csv'):
-    downloadName = filename+'_'+modelType +'_predicted.csv'
-    df = pd.read_csv(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    dfList = np.array(df)
-    length_ = len(dfList)
-    alpha = 0.01
-    one_Num = int(length_ * alpha)
-    randomList = [random.randint(0,length_) for i in range(one_Num)]
-    result = []
-    for i in range(length_):
-        if i in randomList:
-            result.append(1)
-        else:
-            result.append(0)
-    df.insert(len(list(df.columns)), 'Result', np.array(result))
-    #-----to.csv-----#
-    df.to_csv(os.path.join(app.config['UPLOAD_FOLDER'], downloadName))
-
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -63,16 +40,27 @@ def upload_file():
             filename = secure_filename(file.filename)
             #print(filename,file=sys.stderr)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            predictLable(modelType = modelType, filename = filename)
-            time.sleep(5.5)
-            return redirect(url_for('download_file',
+            Use_Model(Clustering=True, baseDir = os.getcwd(), modelType = modelType, filename = filename)
+            if modelType == 'RF':
+                time.sleep(6.5)
+            elif modelType == 'LRsgd':
+                time.sleep(4.5)
+            elif modelType == 'LRlbfgs':
+                time.sleep(5)
+            elif modelType == 'GBDT':
+                time.sleep(5.8)
+            elif modelType == 'SMV':
+                time.sleep(5.0)
+            else:
+                pass    
+            return redirect(url_for('uploaded_file',
                                     filename=filename+'_'+modelType +'_predicted.csv'))
     return render_template('hello.html')
 
-@app.route('/downloads/<filename>')
-def download_file(filename):
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename,as_attachment=True)
+                               filename)
 
 if __name__ == '__main__':
   app.run()
