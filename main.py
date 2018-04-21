@@ -22,10 +22,6 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def predictLable(modelType = 'LRlbfgs', filename = 'test.csv'):
-    #wFile = open(os.path.join(app.config['UPLOAD_FOLDER'], 'bb.txt'),'w')
-    #wFile.write('sfdsfdsf')
-    #wFile.close()
-    #df = pd.DataFrame(data=d)
     downloadName = filename+'_'+modelType +'_predicted.csv'
     df = pd.read_csv(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     dfList = np.array(df)
