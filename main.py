@@ -39,7 +39,7 @@ def predictLable(modelType = 'LRlbfgs', filename = 'test.csv'):
     #         result.append(0)
     # df.insert(len(list(df.columns)), 'Result', np.array(result))
     #-----to.csv-----#
-    df.to_csv(os.path.join(app.config['UPLOAD_FOLDER'], downloadName))
+    #df.to_csv(os.path.join(app.config['UPLOAD_FOLDER'], downloadName))
 
 
 def allowed_file(filename):
