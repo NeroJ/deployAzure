@@ -41,23 +41,23 @@ def upload_file():
             #print(filename,file=sys.stderr)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             Use_Model(Clustering=True, baseDir = os.getcwd(), modelType = modelType, filename = filename)
-            # if modelType == 'RF':
-            #     time.sleep(6.5)
-            # elif modelType == 'LRsgd':
-            #     time.sleep(4.5)
-            # elif modelType == 'LRlbfgs':
-            #     time.sleep(5)
-            # elif modelType == 'GBDT':
-            #     time.sleep(5.8)
-            # elif modelType == 'SMV':
-            #     time.sleep(5.0)
-            # else:
-            #     pass    
+            if modelType == 'RF':
+                time.sleep(6.5)
+            elif modelType == 'LRsgd':
+                time.sleep(4.5)
+            elif modelType == 'LRlbfgs':
+                time.sleep(5)
+            elif modelType == 'GBDT':
+                time.sleep(5.8)
+            elif modelType == 'SMV':
+                time.sleep(5.0)
+            else:
+                pass
             return redirect(url_for('uploaded_file',
                                     filename=filename+'_'+modelType +'_predicted.csv'))
     return render_template('hello.html')
 
-@app.route('/uploads/<filename>')
+@app.route('/downloads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
