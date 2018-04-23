@@ -6,7 +6,8 @@ a{
 
 body {
     background: url(../images/IMG_2774.jpg);
-    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100% 110%;
     color: white;
 }
 
